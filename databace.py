@@ -9,21 +9,19 @@ cur.execute("""
         user_id INTEGER,
         fullname TEXT,
         username TEXT,
-        phone_number INTEGER
+        phone_number INTEGER,
+        group_id INTEGER
     )
 """)
 con.commit()
 
 
-async def user_data(user_id, fullname, username, phone_number):
-    cur.execute("INSERT INTO users (user_id,fullname,username,phone_number) VALUES (?,?,?,?)",
-                (user_id, fullname, username, phone_number))
+async def user_data_insert(user_id, fullname, username, phone_number, group_id):
+    cur.execute("INSERT INTO users (user_id, fullname, username, phone_number, group_id) VALUES (?, ?, ?, ?, ?)",
+                (user_id, fullname, username, phone_number, group_id))
     con.commit()
 
 
 async def check_user(user_id):
-    cur.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone()
-    if cur:
-        return True
-    else:
-        return False
+    a = cur.execute("SELECT * FROM users WHERE user_id=?", (user_id,)).fetchone()
+    return a
